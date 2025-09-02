@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px;
+      width: 350px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, select, button {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 10px;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    li {
+      background: #f9f9f9;
+      margin-bottom: 8px;
+      padding: 8px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Expense Tracker</h1>
+    
+    <!-- Expense Form -->
+    <form id="expense-form">
+      <input type="text" id="desc" placeholder="Expense Description" required>
+      <input type="number" id="amount" placeholder="Amount" required>
+      
+      <select id="category">
+        <option value="Food">🍔 Food</option>
+        <option value="Travel">🚗 Travel</option>
+        <option value="Shopping">🛍️ Shopping</option>
+        <option value="Bills">📑 Bills</option>
+        <option value="Other">📌 Other</option>
+      </select>
+      
+      <button type="submit">Add Expense</button>
+    </form>
+    
+    <!-- Total -->
+    <h2>Total: ₹<span id="total">0</span></h2>
+    
+    <!-- Expenses will show here -->
+    <h3>Expense List:</h3>
+    <ul id="expense-list"></ul>
+  </div>
+
+  <script>
+    const expenseForm = document.getElementById("expense-form");
+    const descInput = document.getElementById("desc");
+    const amountInput = document.getElementById("amount");
+    const categorySelect = document.getElementById("category");
+    const expenseList = document.getElementById("expense-list");
+    const totalSpan = document.getElementById("total");
+
+    let total = 0;
+
+    expenseForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const desc = descInput.value;
+      const amount = parseFloat(amountInput.value);
+      const category = categorySelect.value;
+
+      if (desc === "" || isNaN(amount) || amount <= 0) {
+        alert("Please enter valid details!");
+        return;
+      }
+
+      // Create list item
+      const li = document.createElement("li");
+      li.textContent = `${desc} - ₹${amount} (${category})`;
+      expenseList.appendChild(li);
+
+      // Update total
+      total += amount;
+      totalSpan.textContent = total;
+
+      // Clear inputs
+      descInput.value = "";
+      amountInput.value = "";
+      categorySelect.value = "Food";
+    });
+  </script>
+</body>
+</html>
